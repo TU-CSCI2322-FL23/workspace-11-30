@@ -5,15 +5,15 @@
  - ghci first, and then copy them.
  -}
 
--- 1. Define the function firstTwoTup :: [a] -> (a,a) that takes a list and returns the tuple of the first two elements. 
-firstTwoTup :: [a] -> (a,a)
-firstTwoTup = undefined
-
--- 2. Define the function collatzEsque :: Integer -> Integer. If the integer is negative, multiply
+-- 1. Define the function collatzEsque :: Integer -> Integer. If the integer is negative, multiply
 -- it by (-2), and if it is positive subtract 10 and multiply by (-1). Thus collatzEsque 6 should
 -- return 4, while collatzEsque (-5) should return 10
 collatzEsque :: Integer -> Integer
 collatzEsque = undefined
+
+-- 2. Define the function firstTwoTup :: [a] -> (a,a) that takes a list and returns the tuple of the first two elements. 
+firstTwoTup :: [a] -> (a,a)
+firstTwoTup = undefined
 
 -- 3. Create the list pythag :: [(Integer, Integer, Integer)] of all Pythagorean triples below 100:
 -- integers (a,b,c) such that a^2+b^2=c^2 a. Create a list of all triples (a,b,c) from 1 to 100. 
