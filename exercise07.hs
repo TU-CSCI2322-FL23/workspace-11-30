@@ -19,7 +19,9 @@ collatzEsque = undefined
 -- integers (a,b,c) such that a^2+b^2=c^2 a. Create a list of all triples (a,b,c) from 1 to 100. 
 --     b. Use length to ensure there are a million elements.
 --     c. Add predicates to ensure they obey the right-triangle equality
---     d. There are 16 pythagorean triples. If your list has more, figure out why and fix it.
+--     d. There are 52 pythagorean triples. If your list has more, figure out why and fix it.
+--     e. Extra fun: remove triples that are multiples of another: i.e. (6,8,10) and (3,4,5),
+
 pythag :: [(Integer, Integer, Integer)]
 pythag = undefined
 
