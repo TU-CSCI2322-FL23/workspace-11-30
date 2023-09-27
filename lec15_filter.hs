@@ -40,16 +40,20 @@ f = (\x -> x + 3)
 --ACTIVITY!
 --Define with a map!
 addPairs :: [(Int, Int)] -> [Int]
+addPairs lst = map addPair lst
+  where addPair (x,y) = x + y
+addPairs2 lst = map (\(x,y) -> x + y) lst
 --addPairs [(7,3), (1,2)] = [10, 3]
 --First, with a helper functions
 --Second, with a lambda.
 --
 --Define with a filter:
 zeroDetector :: [Int] -> Bool
+zeroDetector lst = not $ null $ filter (==0) lst
+zeroDetector2 lst = not $ null $ filter (\x -> x==0) lst
 --simpler way: zeroDetector lst = 0 `elem` lst
 --But do it with a filter!
 
 splitOnParity :: [Int] -> ([Int], [Int])
+splitOnParity lst = (filter even lst, filter odd lst)
 --return (list of evens, list of odds)
---
---
