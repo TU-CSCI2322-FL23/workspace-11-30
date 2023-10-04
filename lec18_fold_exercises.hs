@@ -9,13 +9,14 @@ map :: (a -> b) -> [a] -> [b]
 filter :: (a -> Bool) -> [a] -> [a]
 -}
 
--- 1) Define myAnd :: [Bool] -> Bool to take the conjunction of a list.
+-- 1) Using a fold, rewrite myAnd :: [Bool] -> Bool 
 myAnd :: [Bool] -> Bool
-myAnd = undefined
+myAnd [] = True
+myAnd (x:xs) = x && (myAnd xs)
 
 -- 2) Using a fold, define positives :: [Int] -> [Int] that returns the positive elements.
 positives :: [Int] -> [Int]
-positive = undefined
+positives = undefined
 
 -- 3) Using a fold, define range :: [Int] -> (Int,Int) 
 range :: [Int] -> (Int, Int)
@@ -31,9 +32,11 @@ splitOnParity lst = (filter even lst, filter odd lst)
 
 -- 6) Define sumValues :: [(a, Int)] -> Int that sums the values of an association list.  
 sumValues :: [(a, Int)] -> Int
+sumValues = undefined
 
 -- 7) Define bestKey :: [(a, Int)] -> a that finds the key with the maximum value.
 bestKey :: [(a, Int)] -> a
+bestKey = undefined
 
 -- 8) Define a higher-order function exists :: (a -> Bool) -> [a] -> Bool that takes a predicate, a
 -- list, and returns true if the predicate is true for anything in the list. 
