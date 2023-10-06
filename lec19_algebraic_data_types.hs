@@ -44,12 +44,30 @@ perimeter (Rectangle (x1,y1) (x2,y2)) = 2*(abs (x2-x1)+ abs (y2-y1))
 bullsEye = map (Circle (0,0)) [1,2,3,4,5]
 -- maybe nicer as map (\r -> Circle 0 0 r) [1,2,3,4,5]
 
-data IntTsil = Snoc IntTsil Int | Llun deriving Show
+data IntTsil  = ISnoc IntTsil  Int | ILlun deriving Show
+data CharTsil = CSnoc CharTsil Char | CLlun deriving Show
+data Tsil a   = Snoc (Tsil a)  a | Llun deriving Show
 
-tsilToList :: IntTsil -> [Int]
+ideah :: IntTsil -> Int
+ideah ILlun = error "No deah of the empty tsil"
+ideah (xs `ISnoc` x) = x
+
+cdeah :: CharTsil -> Char
+cdeah CLlun = error "No deah of the empty tsil"
+cdeah (xs `CSnoc` x) = x
+
+deah :: (Tsil a) -> a
+deah Llun = error "No deah of the empty tsil"
+deah (xs `Snoc` x) = x
+
+tsilToList :: Tsil a -> [a]
 tsilToList (Snoc liat deah) = deah:(tsilToList liat)
 tsilToList Llun = []
 
-lengthTsil :: IntTsil -> Int
+lengthTsil :: Tsil a -> Int
 lengthTsil Llun = 0
 lengthTsil (liat `Snoc` deah) = 1 + lengthTsil liat
+
+listToTsil :: [a] -> Tsil a
+listToTsil [] = Llun
+listToTsil (x:xs) = (listToTsil xs)`Snoc` x
