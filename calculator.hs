@@ -26,4 +26,17 @@ tokensOne = [OpTok Plus,NumTok 7.0,OpTok Times,NumTok 3.0,NumTok 2.0]
 tokensTwo = [OpTok Minus,OpTok Plus,NumTok 79.0,NumTok 4.0,OpTok Times,NumTok 8.0,NumTok 2.0]
 tokensThree = [OpTok Times,OpTok Plus,NumTok 3.0,OpTok Minus,NumTok 79.0,NumTok 8.0,NumTok 2.0]
 
+treeZero = NumExpr 10.0
+treeOne = OpExpr Plus (NumExpr 7.0) (OpExpr Times (NumExpr 3) (NumExpr 2))
+treeTwo = OpExpr Minus treeTwoA treeTwoB 
+treeTwoA = (OpExpr Plus (NumExpr 79.0) 
+                        (NumExpr 4.0))
+treeTwoB = (OpExpr Times (NumExpr 8.0) 
+                         (NumExpr 2.0))
+treeThree = OpExpr Times (OpExpr Plus (NumExpr 3.0)
+                                      (OpExpr Minus (NumExpr 79.0)
+                                                    (NumExpr 8.0)))
+                         (NumExpr 2.0)
 
+
+eval :: Expr -> Double
