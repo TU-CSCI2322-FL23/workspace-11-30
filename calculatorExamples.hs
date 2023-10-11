@@ -36,3 +36,8 @@ numExprToks = [NumTok 79]
 opExprToks = [OpTok Plus, NumTok 79, NumTok 4]
 rightExprToks = [OpTok Minus, NumTok 4, OpTok Times, NumTok 8, NumTok 2]
 leftExprToks = [OpTok Minus, OpTok Times, NumTok 8, NumTok 2, NumTok 4]
+
+numExprTree = NumExpr 79
+opExprTree = OpExpr Plus (NumExpr 79) (NumExpr 4)
+rightExprTree = OpExpr Minus (NumTok 4) (OpTok Times (NumTok 8) (NumTok 2))
+leftExprTree = OpExpr Minus (OpTok Times (NumTok 8) (NumTok 2)) (NumTok 4)

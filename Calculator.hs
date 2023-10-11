@@ -17,7 +17,6 @@ lexWord "*" = OpTok Times
 lexWord "/" = OpTok Divide
 lexWord x = NumTok (read x)
 
-
 parser :: [Token] -> Expr
 parser = undefined
 

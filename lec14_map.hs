@@ -24,6 +24,8 @@ doubleAll (x:xs) = (2*x):(doubleAll xs)
 absAll [] = []
 absAll (x:xs) = (abs x):(absAll xs)
 
+absAllHOF lst = map abs lst
+
 singletons :: [a] -> [[a]]
 singletons [] = []
 singletons (x:xs) = ([x]):(singletons xs)
