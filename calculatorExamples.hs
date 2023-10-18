@@ -37,6 +37,7 @@ opExprToks = [OpTok Plus, NumTok 79, NumTok 4]
 rightExprToks = [OpTok Minus, NumTok 4, OpTok Times, NumTok 8, NumTok 2]
 leftExprToks = [OpTok Minus, OpTok Times, NumTok 8, NumTok 2, NumTok 4]
 
+numExprTree, opExprTree, rightExprTree, leftExprTree :: Expr
 numExprTree = NumExpr 79
 opExprTree = OpExpr Plus (NumExpr 79) (NumExpr 4)
 rightExprTree = OpExpr Minus (NumExpr 4) (OpExpr Times (NumExpr 8) (NumExpr 2))

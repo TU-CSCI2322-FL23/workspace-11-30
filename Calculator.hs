@@ -1,4 +1,5 @@
 module Calculator where
+import Text.Read
 
 data Operator = Plus | Minus | Divide | Times deriving (Show, Eq)
 data Token = OpTok Operator | NumTok Double deriving (Show, Eq)
@@ -7,18 +8,97 @@ data Expr = OpExpr Operator Expr Expr | NumExpr Double deriving Show
 --data Token = Plus | Minus | Divide | Times | Num Double deriving (Show, Eq)
 --valid but we voted against it
 
-lexer :: String -> [Token]
-lexer str = map lexWord (words str)
+lexer :: String -> Maybe [Token]
+lexer str = sequence $ map lexWord (words str)
 
-lexWord :: String -> Token
-lexWord "+" = OpTok Plus
-lexWord "-" = OpTok Minus
-lexWord "*" = OpTok Times
-lexWord "/" = OpTok Divide
-lexWord x = NumTok (read x)
+lexWord :: String -> Maybe Token
+lexWord "+" = Just $ OpTok Plus
+lexWord "-" = Just $ OpTok Minus
+lexWord "*" = Just $ OpTok Times
+lexWord "/" = Just $ OpTok Divide
+lexWord x = fmap (NumTok) (readMaybe x)
+  {-case readMaybe x of
+    Just val -> Just $ NumTok val
+    Nothing -> Nothing-}
 
-parser :: [Token] -> Expr
-parser = undefined
+numExprToks, opExprToks, rightExprToks, leftExprToks :: [Token]
+numExprToks = [NumTok 79]
+opExprToks = [OpTok Plus, NumTok 79, NumTok 4]
+rightExprToks = [OpTok Minus, NumTok 4, OpTok Times, NumTok 8, NumTok 2]
+leftExprToks = [OpTok Minus, OpTok Times, NumTok 8, NumTok 2, NumTok 4]
+
+unsafeParser :: [Token] -> Expr
+unsafeParser [] = error "Invalid expression: missing symbols."
+unsafeParser (NumTok x:tokens) = NumExpr x
+unsafeParser (OpTok op:tokens) = 
+    let lft = unsafeParser tokens
+        rgt = unsafeParser (drop (sizeOf lft) tokens)
+    in OpExpr op lft rgt
+
+unsafeParser2 :: [Token] -> Expr
+unsafeParser2 tokens = 
+  case aux tokens of
+    (expr, [])   -> expr
+    (expr, toks) -> error $ "Invalid expression: extra symbols (" ++ show toks ++ ")"
+  where aux :: [Token] -> (Expr, [Token]) 
+        aux [] = error "Invalid expression: missing symbols."
+        aux (NumTok x:tokens) = (NumExpr x, tokens)
+        aux (OpTok op:tokens) = 
+                    let (lft, toksAfterLft) = aux tokens
+                        (rgt, toksAfterRgt) = aux toksAfterLft
+                    in (OpExpr op lft rgt, toksAfterRgt)
+
+uglyParser :: [Token] -> Maybe Expr
+uglyParser tokens = 
+  case aux tokens of
+    Just (expr, [])   -> Just expr
+    Just (expr, toks) -> Nothing -- error $ "Invalid expression: extra symbols (" ++ show toks ++ ")"
+    Nothing           -> Nothing
+  where aux :: [Token] -> Maybe (Expr, [Token]) 
+        aux [] = Nothing -- error "Invalid expression: missing symbols."
+        aux (NumTok x:tokens) = Just (NumExpr x, tokens)
+        aux (OpTok op:tokens) = 
+            case aux tokens of
+              Nothing -> Nothing
+              Just (lft, toksAfterLft) ->
+                  case aux toksAfterLft of
+                    Nothing -> Nothing
+                    Just (rgt, toksAfterRgt) -> Just (OpExpr op lft rgt, toksAfterRgt)
+
+
+parser [Token] -> Maybe Expr
+parser tokens = 
+  case aux tokens of
+    Just (expr, [])   -> Just expr
+    Just (expr, toks) -> Nothing -- error $ "Invalid expression: extra symbols (" ++ show toks ++ ")"
+  where aux :: [Token] -> Maybe (Expr, [Token]) 
+        aux [] = Nothing -- error "Invalid expression: missing symbols."
+        aux (NumTok x:tokens) = Just (NumExpr x, tokens)
+        aux (OpTok op:tokens) = 
+                    do (lft, toksAfterLft) <- aux tokens
+                       (rgt, toksAfterRgt) <- aux toksAfterLft
+                       Just (OpExpr op lft rgt, toksAfterRgt)
+
+repl :: String -> Maybe Double
+repl str = 
+  do toks <- lexer str
+     expr <- parser toks
+     Just (eval expr) 
+
+{-
+ - repl :: String -> Maybe Double
+repl str = 
+  case lexer str of
+    Nothing -> Nothing
+    Just tokens -> 
+      case parser tokens of
+        Nothing -> Nothing
+        Just expr -> Just $ eval expr
+        -}
+
+sizeOf :: Expr -> Int
+sizeOf (NumExpr x) = 1
+sizeOf (OpExpr op lft rgt) = 1 + sizeOf lft + sizeOf rgt
 
 eval :: Expr -> Double
 eval (NumExpr x) = x
