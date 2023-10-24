@@ -1,9 +1,9 @@
 module Calculator where
 import Text.Read
 
-data Operator = Plus | Minus | Divide | Times deriving (Show, Eq)
-data Token = OpTok Operator | NumTok Double deriving (Show, Eq)
-data Expr = OpExpr Operator Expr Expr | NumExpr Double deriving Show
+data Operator = Plus | Minus | Divide | Times deriving (Eq)
+data Token = OpTok Operator | NumTok Double deriving (Eq)
+data Expr = OpExpr Operator Expr Expr | NumExpr Double deriving Eq
 
 --data Token = Plus | Minus | Divide | Times | Num Double deriving (Show, Eq)
 --valid but we voted against it
@@ -39,7 +39,7 @@ unsafeParser2 :: [Token] -> Expr
 unsafeParser2 tokens = 
   case aux tokens of
     (expr, [])   -> expr
-    (expr, toks) -> error $ "Invalid expression: extra symbols (" ++ show toks ++ ")"
+    (expr, toks) -> error $ "Invalid expression: extra symbols "--(" ++ show toks ++ ")"
   where aux :: [Token] -> (Expr, [Token]) 
         aux [] = error "Invalid expression: missing symbols."
         aux (NumTok x:tokens) = (NumExpr x, tokens)
@@ -66,7 +66,7 @@ uglyParser tokens =
                     Just (rgt, toksAfterRgt) -> Just (OpExpr op lft rgt, toksAfterRgt)
 
 
-parser [Token] -> Maybe Expr
+parser :: [Token] -> Maybe Expr
 parser tokens = 
   case aux tokens of
     Just (expr, [])   -> Just expr
