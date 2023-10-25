@@ -1,9 +1,9 @@
 import Debug.Trace 
 import Data.List
-import Calculator
-{-data Operator = Plus | Minus | Divide | Times deriving Eq
+
+data Operator = Plus | Minus | Divide | Times deriving Eq
 data Token = OpTok Operator | NumTok Double deriving Eq
-data Expr = OpExpr Operator Expr Expr | NumExpr Double deriving Eq-}
+data Expr = OpExpr Operator Expr Expr | NumExpr Double deriving Eq
 
 instance Show Operator where
   show Plus = "+"

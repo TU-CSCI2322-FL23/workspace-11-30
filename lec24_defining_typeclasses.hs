@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleInstances, OverlappingInstances #-}
 
 import Data.Char
+import Calculator
 
 class Boooo a where 
   scared :: a -> Bool
@@ -8,6 +9,14 @@ class Boooo a where
   tot test trick treat = if scared test then trick else treat
   treat :: a
   trick :: a
+
+{-data Operator = Plus | Minus | Divide | Times deriving (Eq, Show)
+data Token = OpTok Operator | NumTok Double deriving (Eq, Show)-}
+
+instance Boooo Token where
+  scared 
+  treat =
+  trick =
 
 instance Boooo Bool where
   scared b = b
@@ -35,7 +44,7 @@ spooked :: Boooo a => [a] -> [a]
 spooked lst = [x | x <- lst, scared x]
 
 cAndy :: Boooo a => a -> a -> a
-cAndy jack sally = if (scared jack) then sally else jack
+--cAndy jack sally = if (scared jack) then sally else jack
 cAndy jack sally = tot jack sally jack
 
 ortober :: Boooo a => a -> a -> a
