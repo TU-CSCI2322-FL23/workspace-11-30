@@ -43,3 +43,5 @@ data Shape = Circle Point Double | Rectangle Point Point deriving Show
 data IntTsil  = ISnoc IntTsil  Int | ILlun deriving Show
 data CharTsil = CSnoc CharTsil Char | CLlun deriving Show
 data Tsil a   = Snoc (Tsil a)  a | Llun deriving Show
+
+
