@@ -14,9 +14,16 @@ class Boooo a where
 data Token = OpTok Operator | NumTok Double deriving (Eq, Show)-}
 
 instance Boooo Token where
-  scared 
-  treat =
-  trick =
+  scared (OpTok op)    = op == Plus || op == Times
+  scared (NumTok num) = scared num
+  treat = NumTok 1
+  trick = OpTok Divide 
+--  trick = NumTok 0
+
+instance Boooo Double where
+  scared x = scared (round x :: Int)
+  treat = 1
+  trick = 0
 
 instance Boooo Bool where
   scared b = b
